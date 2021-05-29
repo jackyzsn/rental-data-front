@@ -2,7 +2,21 @@ import React, { useEffect, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Avatar, useScrollTrigger, Zoom, Fab } from '@material-ui/core';
+import {
+  Avatar,
+  useScrollTrigger,
+  Zoom,
+  Fab,
+  Button,
+  Box,
+  Grid,
+  Typography,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardMedia
+} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import Dummy from './Dummy';
@@ -18,6 +32,9 @@ import { simpleRequest } from '../utils/Api';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { useCookies } from 'react-cookie';
 import Footer from '../components/common/Footer';
+import SaveIcon from '@material-ui/icons/Save';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import { FaGooglePlus } from 'react-icons/fa';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,9 +51,6 @@ const useStyles = makeStyles((theme) => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1)
   },
-  submit: {
-    margin: theme.spacing(3, 0, 2)
-  },
   carouselBox: {
     display: 'flex',
     justifyContent: 'center',
@@ -47,11 +61,31 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     bottom: theme.spacing(2),
     right: theme.spacing(2)
+  },
+  rootAbsolute: {
+    paddingLeft: 80,
+    paddingRight: 45,
+    position: 'relative',
+
+    '& .MuiButton-sizeSmall': {
+      paddingLeft: 48,
+      paddingRight: 32,
+      position: 'absolute',
+      left: 16
+    },
+    '& .MuiButton-startIcon': {
+      position: 'absolute',
+      left: 64
+    }
+  },
+  svg_icon: {
+    transform: 'scale(2.2)',
+    color: '#4F4F4F'
   }
 }));
 
 export default function Home(props) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const classes = useStyles();
   const { dispatch } = useContext(Store);
   const params = new URLSearchParams(window.location.search);
@@ -66,7 +100,7 @@ export default function Home(props) {
 
   function ScrollTop(props) {
     const { children, window } = props;
-    const classes = useStyles();
+    const vClasses = useStyles();
     // Note that you normally won't need to set the window ref as useScrollTrigger
     // will default to window.
     const trigger = useScrollTrigger({
@@ -85,7 +119,7 @@ export default function Home(props) {
 
     return (
       <Zoom in={trigger}>
-        <div onClick={handleClick} role="presentation" className={classes.root}>
+        <div onClick={handleClick} role="presentation" className={vClasses.root}>
           {children}
         </div>
       </Zoom>
@@ -99,7 +133,51 @@ export default function Home(props) {
     <div>
       <div id="back-to-top-anchor"></div>
       <Header />
-      <Dummy />
+      <Container component="main" maxWidth="sm">
+        <Grid container spacing={2} style={{ marginTop: 100, marginBottom: 30 }}>
+          <Grid item xs={12}>
+            <Button
+              margin="normal"
+              fullWidth
+              variant="contained"
+              color="#FFFFFF"
+              className={classes.rootAbsolute}
+              // onClick={() => {
+              //   window.location = REDIRECT_GOOGLE_SIGN_IN;
+              // }}
+              startIcon={<FaGooglePlus className={classes.svg_icon} />}
+              style={{
+                minHeight: '100px',
+                backgroundColor: '#FFFFFF',
+                boxShadow: '0 10px 15px -2px rgba(0, 0, 0, .3)',
+                fontSize: '28px'
+              }}
+            >
+              {t('sign_in_google')}
+            </Button>
+          </Grid>
+          <Grid item xs={12} style={{ marginTop: 80, marginBottom: 200 }}>
+            <Button
+              margin="normal"
+              fullWidth
+              variant="contained"
+              className={classes.rootAbsolute}
+              startIcon={<FacebookIcon className={classes.svg_icon} />}
+              // onClick={() => {
+              //   window.location = REDIRECT_FACEBOOK_SIGN_IN;
+              // }}
+              style={{
+                minHeight: '100px',
+                backgroundColor: '#FFFFFF',
+                boxShadow: '0 10px 15px -2px rgba(0, 0, 0, .3)',
+                fontSize: '28px'
+              }}
+            >
+              {t('sign_in_facebook')}
+            </Button>
+          </Grid>
+        </Grid>
+      </Container>
 
       <Container component="main" maxWidth="sm">
         <CssBaseline />
