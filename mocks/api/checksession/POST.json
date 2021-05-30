@@ -1,5 +1,10 @@
 {
   "status": "0",
   "logged": true,
-  "user": "Jacky Zhang"
+  "verified": true,
+  "user": {
+    "id": "id1",
+    "name": "Jacky Zhang",
+    "thumbnail": "https://lh3.googleusercontent.com/a-/AOh14GjUrZ5lLxYafx5yP45AIBOz37spAuCtmnXyWPlglg"
+  }
 }

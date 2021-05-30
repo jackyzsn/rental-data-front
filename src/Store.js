@@ -7,6 +7,7 @@ export const Store = createContext();
 
 const initialState = {
   logged: false,
+  verified: false,
   loading: false,
   user: {},
   menuList: [],
@@ -17,6 +18,8 @@ function reducer(state, action) {
   switch (action.type) {
     case 'CHANGE_LOG_STATUS':
       return { ...state, logged: action.payload };
+    case 'CHANGE_VERIFY_STATUS':
+      return { ...state, verified: action.payload };
     case 'SET_LOGGED_USER':
       return { ...state, user: action.payload };
     case 'SET_LOADING':

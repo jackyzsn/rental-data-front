@@ -1,11 +1,15 @@
 const baseAPIURL = '';
 const baseAPPURL = '';
-const baseAuthURL = 'https://jszsoft.ddns.net:8800/';
 const baseImageURL = '';
 
-export const BACK_GET_SESSION_URL = baseAPIURL + 'api/checksession';
+// Sign in URL from Home
+export const REDIRECT_GOOGLE_SIGN_IN = '/auth/google/web';
+export const REDIRECT_FACEBOOK_SIGN_IN = '/auth/facebook/web';
+export const BACK_GET_SESSION_URL = '/api/checksession';
+export const BACK_ADD_SESSION_URL = '/api/addsession';
+
 export const BACK_CLEAR_SESSION_URL = baseAPIURL + 'api/clearsession';
-export const BACK_ADD_SESSION_URL = baseAPIURL + 'api/addsession';
+
 export const BACK_GET_MARKETING_CONTENT = baseAPIURL + 'api/marketing';
 export const BACK_SEARCH_LATEST_URL = baseAPIURL + 'api/listing/latest';
 export const BACK_GET_DETAIL_URL = baseAPIURL + 'api/listing/detail';
@@ -25,10 +29,6 @@ export const BACK_UPDATE_USER_PROFILE_URL = baseAPIURL + 'api/admin/updateUserPr
 export const BACK_DELETE_USER_PROFILE_URL = baseAPIURL + 'api/admin/deleteUserProfile';
 export const BACK_SEND_OTP_URL = baseAPIURL + 'api/accesscode/create';
 export const BACK_VERIFY_OTP_URL = baseAPIURL + 'api/accesscode/verify';
-
-// Sign in URL from Home
-export const REDIRECT_GOOGLE_SIGN_IN = baseAuthURL + 'auth/google/web';
-export const REDIRECT_FACEBOOK_SIGN_IN = baseAuthURL + 'auth/facebook/web';
 
 // Image prefix
 export const IMAGE_URL_PREFIX = baseImageURL + 'apio/listing/imageByURL/';

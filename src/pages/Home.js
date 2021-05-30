@@ -1,40 +1,19 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import {
-  Avatar,
-  useScrollTrigger,
-  Zoom,
-  Fab,
-  Button,
-  Box,
-  Grid,
-  Typography,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia
-} from '@material-ui/core';
+import { Avatar, useScrollTrigger, Zoom, Fab, Button, Grid } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
-import Dummy from './Dummy';
-import { DEAULT_MENU_LIST, REQUEST_HEADER } from '../config/defaults';
-import {
-  BACK_GET_MARKETING_CONTENT,
-  BACK_ADD_SESSION_URL,
-  BACK_GET_SESSION_URL
-} from '../config/endUrl';
+import { REDIRECT_GOOGLE_SIGN_IN, REDIRECT_FACEBOOK_SIGN_IN } from '../config/endUrl';
 import { Store } from '../Store';
 import Header from '../components/common/Header';
-import { simpleRequest } from '../utils/Api';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { useCookies } from 'react-cookie';
 import Footer from '../components/common/Footer';
-import SaveIcon from '@material-ui/icons/Save';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import { FaGooglePlus } from 'react-icons/fa';
+import LogMain from '../components/home/LogMain';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -46,16 +25,6 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
-  },
-  carouselBox: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white'
   },
   root: {
     position: 'fixed',
@@ -87,9 +56,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Home(props) {
   const { t, i18n } = useTranslation();
   const classes = useStyles();
-  const { dispatch } = useContext(Store);
-  const params = new URLSearchParams(window.location.search);
-  const uuid = params.get('uuid');
+  const { state, dispatch } = useContext(Store);
   const [cookies, setCookie] = useCookies(['lang']);
 
   const lang = cookies.lang ? cookies.lang : 'en';
@@ -133,51 +100,54 @@ export default function Home(props) {
     <div>
       <div id="back-to-top-anchor"></div>
       <Header />
-      <Container component="main" maxWidth="sm">
-        <Grid container spacing={2} style={{ marginTop: 100, marginBottom: 30 }}>
-          <Grid item xs={12}>
-            <Button
-              margin="normal"
-              fullWidth
-              variant="contained"
-              color="#FFFFFF"
-              className={classes.rootAbsolute}
-              // onClick={() => {
-              //   window.location = REDIRECT_GOOGLE_SIGN_IN;
-              // }}
-              startIcon={<FaGooglePlus className={classes.svg_icon} />}
-              style={{
-                minHeight: '100px',
-                backgroundColor: '#FFFFFF',
-                boxShadow: '0 10px 15px -2px rgba(0, 0, 0, .3)',
-                fontSize: '28px'
-              }}
-            >
-              {t('sign_in_google')}
-            </Button>
+      {!state.logged && (
+        <Container component="main" maxWidth="sm">
+          <Grid container spacing={2} style={{ marginTop: 100, marginBottom: 30 }}>
+            <Grid item xs={12}>
+              <Button
+                margin="normal"
+                fullWidth
+                variant="contained"
+                color="#FFFFFF"
+                className={classes.rootAbsolute}
+                onClick={() => {
+                  window.location = REDIRECT_GOOGLE_SIGN_IN;
+                }}
+                startIcon={<FaGooglePlus className={classes.svg_icon} />}
+                style={{
+                  minHeight: '100px',
+                  backgroundColor: '#FFFFFF',
+                  boxShadow: '0 10px 15px -2px rgba(0, 0, 0, .3)',
+                  fontSize: '28px'
+                }}
+              >
+                {t('sign_in_google')}
+              </Button>
+            </Grid>
+            <Grid item xs={12} style={{ marginTop: 80, marginBottom: 200 }}>
+              <Button
+                margin="normal"
+                fullWidth
+                variant="contained"
+                className={classes.rootAbsolute}
+                startIcon={<FacebookIcon className={classes.svg_icon} />}
+                onClick={() => {
+                  window.location = REDIRECT_FACEBOOK_SIGN_IN;
+                }}
+                style={{
+                  minHeight: '100px',
+                  backgroundColor: '#FFFFFF',
+                  boxShadow: '0 10px 15px -2px rgba(0, 0, 0, .3)',
+                  fontSize: '28px'
+                }}
+              >
+                {t('sign_in_facebook')}
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12} style={{ marginTop: 80, marginBottom: 200 }}>
-            <Button
-              margin="normal"
-              fullWidth
-              variant="contained"
-              className={classes.rootAbsolute}
-              startIcon={<FacebookIcon className={classes.svg_icon} />}
-              // onClick={() => {
-              //   window.location = REDIRECT_FACEBOOK_SIGN_IN;
-              // }}
-              style={{
-                minHeight: '100px',
-                backgroundColor: '#FFFFFF',
-                boxShadow: '0 10px 15px -2px rgba(0, 0, 0, .3)',
-                fontSize: '28px'
-              }}
-            >
-              {t('sign_in_facebook')}
-            </Button>
-          </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      )}
+      {state.logged && <LogMain />}
 
       <Container component="main" maxWidth="sm">
         <CssBaseline />

@@ -23,8 +23,8 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Store } from '../../Store';
 
 import { simpleRequest } from '../../utils/Api';
-import { DEAULT_MENU_LIST, REQUEST_HEADER } from '../../config/defaults';
-import { BACK_GET_SESSION_URL } from '../../config/endUrl';
+import { REQUEST_HEADER } from '../../config/defaults';
+import { BACK_GET_SESSION_URL, BACK_ADD_SESSION_URL } from '../../config/endUrl';
 import logo from '../../../public/assets/images/FindMyHouseLine.png';
 import { useCookies } from 'react-cookie';
 import clsx from 'clsx';
@@ -72,9 +72,6 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff'
   },
-  smallgap: {
-    marginLeft: 3
-  },
   menuButton: {
     marginRight: theme.spacing(2)
   },
@@ -102,7 +99,6 @@ export default function Header(props) {
   const { t, i18n } = useTranslation();
   const classes = useStyles();
   const { state, dispatch } = useContext(Store);
-  // const [showLogin, setShowLogin] = useState(false);
   const [cookies] = useCookies(['lang']);
   const { innerWidth: width } = window;
   const theme = useTheme();
@@ -146,59 +142,75 @@ export default function Header(props) {
     </ListItem>
   ));
 
-  // const handleLogon = () => {
-  //   setShowLogin(true);
-  // };
+  const retrieveSession = async () => {
+    const data = {
+      request: {
+        requestHeader: REQUEST_HEADER,
+        data: {}
+      }
+    };
 
-  // const closeLogon = () => {
-  //   setShowLogin(false);
-  // };
+    const response = await simpleRequest(BACK_GET_SESSION_URL, data, 'POST', dispatch);
 
-  // const retrieveSession = async () => {
-  //   const data = {
-  //     request: {
-  //       requestHeader: REQUEST_HEADER,
-  //       data: {},
-  //     },
-  //   };
+    // set state..
+    if (response.status === '0' && response.logged && response.user) {
+      dispatch({
+        type: 'CHANGE_LOG_STATUS',
+        payload: true
+      });
+      dispatch({
+        type: 'SET_LOGGED_USER',
+        payload: response.user
+      });
+      // dispatch({
+      //   type: 'SET_MENULIST',
+      //   payload: [...DEAULT_MENU_LIST, ...response.user.extraMenuList]
+      // });
+    } else {
+      dispatch({
+        type: 'CHANGE_LOG_STATUS',
+        payload: false
+      });
+      dispatch({
+        type: 'SET_LOGGED_USER',
+        payload: {}
+      });
+      // dispatch({
+      //   type: 'SET_MENULIST',
+      //   payload: [...DEAULT_MENU_LIST]
+      // });
+    }
+  };
 
-  //   const response = await simpleRequest(BACK_GET_SESSION_URL, data, 'POST', dispatch);
+  const addUserSession = async (authCode) => {
+    const data = {
+      request: {
+        requestHeader: REQUEST_HEADER,
+        data: {
+          authCode
+        }
+      }
+    };
 
-  //   // set state..
-  //   if (response.status === '0' && response.logged && response.user) {
-  //     dispatch({
-  //       type: 'CHANGE_LOG_STATUS',
-  //       payload: true,
-  //     });
-  //     dispatch({
-  //       type: 'SET_LOGGED_USER',
-  //       payload: response.user,
-  //     });
-  //     dispatch({
-  //       type: 'SET_MENULIST',
-  //       payload: [...DEAULT_MENU_LIST, ...response.user.extraMenuList],
-  //     });
-  //   } else {
-  //     dispatch({
-  //       type: 'CHANGE_LOG_STATUS',
-  //       payload: false,
-  //     });
-  //     dispatch({
-  //       type: 'SET_LOGGED_USER',
-  //       payload: {},
-  //     });
-  //     dispatch({
-  //       type: 'SET_MENULIST',
-  //       payload: [...DEAULT_MENU_LIST],
-  //     });
-  //   }
-  // };
+    await simpleRequest(BACK_ADD_SESSION_URL, data, 'POST', dispatch);
+  };
 
   // Only want to execute once
   useEffect(() => {
     const lang = cookies.lang;
     i18n.changeLanguage(lang);
-    // retrieveSession();
+    const authCode = cookies.Authorization;
+
+    async function addRetrieveSessionData(vAuthCode) {
+      await addUserSession(vAuthCode);
+
+      await retrieveSession();
+    }
+
+    if (authCode) {
+      // do api call to create session
+      addRetrieveSessionData(authCode);
+    }
   }, []);
 
   const menuBar = toDrawer ? (
@@ -229,7 +241,9 @@ export default function Header(props) {
             >
               {state.user.thumbnail && <Avatar alt={state.user.name} src={state.user.thumbnail} />}
               <Box m={0.5}>
-                <Typography variant="body1">Welcome {state.user.name}</Typography>
+                <Typography variant="body1">
+                  {t('welcome')} {state.user.name}
+                </Typography>
               </Box>
             </Box>
           )}
@@ -299,7 +313,9 @@ export default function Header(props) {
                       <Avatar alt={state.user.name} src={state.user.thumbnail} />
                     )}
                     <Box m={0.5}>
-                      <Typography variant="body1">Welcome {state.user.name}</Typography>
+                      <Typography variant="body1">
+                        {t('welcome')} {state.user.name}
+                      </Typography>
                     </Box>
                   </Box>
                 )}
