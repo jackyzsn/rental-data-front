@@ -89,7 +89,7 @@ export default function VerifyConfirm(props) {
       request: {
         requestHeader: REQUEST_HEADER,
         data: {
-          authUserId,
+          authUserId: authUserId,
           propertyInfo: property
         }
       }
