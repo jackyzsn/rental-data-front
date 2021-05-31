@@ -4,14 +4,14 @@ export function simpleRequest(endpoint, payload = {}, method = 'POST', dispatch)
   const setLoading = (flag) => {
     dispatch({
       type: 'SET_LOADING',
-      payload: flag,
+      payload: flag
     });
   };
 
   const headers = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-    Authorization: 'Basic bW9iaWxlOmFiY2RlZmdoaWprMTIzNDU2Nzg5',
+    Authorization: 'Basic d2ViOmFiY2RlZmdoaWprMTIzNDU2Nzg5'
   };
 
   const opts = {
@@ -19,7 +19,7 @@ export function simpleRequest(endpoint, payload = {}, method = 'POST', dispatch)
     method,
     data: JSON.stringify(payload),
     headers,
-    withCredentials: true, // for cors cookies
+    withCredentials: true // for cors cookies
   };
 
   setLoading(true);

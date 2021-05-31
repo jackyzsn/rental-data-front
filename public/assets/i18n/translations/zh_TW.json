@@ -5,5 +5,11 @@
   "sign_in_google": "使用谷歌登陆",
   "sign_in_facebook": "使用脸书登陆",
   "home": "主页",
-  "welcome": "欢迎"
+  "welcome": "欢迎",
+  "not_verified": "您已经登陆但还未被验证",
+  "verify_box_label": "请输入您的验证信息",
+  "verify_button_label": "提交验证申请",
+  "max_note_length": "最多250个字符",
+  "remain_length": "剩下字符数: ",
+  "submitted_message": "您的验证请求已经提交。系统管理员将或验证您的请求并将您加入系统。之后您便可以使用系统录入您的出租屋的有关数据"
 }

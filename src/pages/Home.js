@@ -14,6 +14,8 @@ import Footer from '../components/common/Footer';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import { FaGooglePlus } from 'react-icons/fa';
 import LogMain from '../components/home/LogMain';
+import LogVerified from '../components/home/LogVerified';
+import LogAdmin from '../components/home/LogAdmin';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -108,7 +110,6 @@ export default function Home(props) {
                 margin="normal"
                 fullWidth
                 variant="contained"
-                color="#FFFFFF"
                 className={classes.rootAbsolute}
                 onClick={() => {
                   window.location = REDIRECT_GOOGLE_SIGN_IN;
@@ -147,7 +148,9 @@ export default function Home(props) {
           </Grid>
         </Container>
       )}
-      {state.logged && <LogMain />}
+      {state.logged && !state.verified && !state.isAdmin && <LogMain />}
+      {state.logged && state.isAdmin && <LogAdmin />}
+      {state.logged && !state.isAdmin && state.verified && <LogVerified />}
 
       <Container component="main" maxWidth="sm">
         <CssBaseline />

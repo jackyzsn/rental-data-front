@@ -31,6 +31,7 @@ import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { RiAdminLine } from 'react-icons/ri';
 
 const drawerWidth = 160;
 
@@ -92,6 +93,10 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end'
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.primary.main
   }
 }));
 
@@ -162,6 +167,14 @@ export default function Header(props) {
         type: 'SET_LOGGED_USER',
         payload: response.user
       });
+      dispatch({
+        type: 'CHANGE_VERIFY_STATUS',
+        payload: response.verified
+      });
+      dispatch({
+        type: 'CHANGE_ADMIN_STATUS',
+        payload: response.isAdmin
+      });
       // dispatch({
       //   type: 'SET_MENULIST',
       //   payload: [...DEAULT_MENU_LIST, ...response.user.extraMenuList]
@@ -174,6 +187,14 @@ export default function Header(props) {
       dispatch({
         type: 'SET_LOGGED_USER',
         payload: {}
+      });
+      dispatch({
+        type: 'CHANGE_VERIFY_STATUS',
+        payload: false
+      });
+      dispatch({
+        type: 'CHANGE_ADMIN_STATUS',
+        payload: false
       });
       // dispatch({
       //   type: 'SET_MENULIST',
@@ -210,6 +231,8 @@ export default function Header(props) {
     if (authCode) {
       // do api call to create session
       addRetrieveSessionData(authCode);
+    } else {
+      retrieveSession();
     }
   }, []);
 
@@ -239,6 +262,11 @@ export default function Header(props) {
               justifyContent="center"
               className={classes.button}
             >
+              {state.isAdmin && (
+                <Avatar className={classes.avatar}>
+                  <RiAdminLine />
+                </Avatar>
+              )}
               {state.user.thumbnail && <Avatar alt={state.user.name} src={state.user.thumbnail} />}
               <Box m={0.5}>
                 <Typography variant="body1">
@@ -309,6 +337,11 @@ export default function Header(props) {
                     justifyContent="center"
                     className={classes.button}
                   >
+                    {state.isAdmin && (
+                      <Avatar className={classes.avatar}>
+                        <RiAdminLine />
+                      </Avatar>
+                    )}
                     {state.user.thumbnail && (
                       <Avatar alt={state.user.name} src={state.user.thumbnail} />
                     )}

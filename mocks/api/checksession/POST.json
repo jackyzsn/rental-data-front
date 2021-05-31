@@ -1,7 +1,8 @@
 {
   "status": "0",
   "logged": true,
-  "verified": true,
+  "verified": false,
+  "isAdmin": false,
   "user": {
     "id": "id1",
     "name": "Jacky Zhang",

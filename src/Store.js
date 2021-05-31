@@ -22,6 +22,8 @@ function reducer(state, action) {
       return { ...state, verified: action.payload };
     case 'SET_LOGGED_USER':
       return { ...state, user: action.payload };
+    case 'CHANGE_ADMIN_STATUS':
+      return { ...state, isAdmin: action.payload };
     case 'SET_LOADING':
       return { ...state, loading: action.payload };
     case 'SET_MENULIST':

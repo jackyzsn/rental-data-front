@@ -5,5 +5,11 @@
   "sign_in_google": "Sign in with Google",
   "sign_in_facebook": "Sign in with Facebook",
   "home": "Home",
-  "welcome": "Welcome"
+  "welcome": "Welcome",
+  "not_verified": "You logged in but not verified",
+  "verify_box_label": "Please input your information for verification",
+  "verify_button_label": "Submit Verification Request",
+  "max_note_length": "250 characters max",
+  "remain_length": "Remaining length: ",
+  "submitted_message": "Your verification request is submitted. System administrator will verify and add you to the system. After that you will be able to use the system to record your rental property data."
 }
