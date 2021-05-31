@@ -32,5 +32,9 @@
   "search": "搜索",
   "verify_user": "验证用户",
   "verify_tab_label": "验证用户",
-  "confirm_tab_label": "确认数据"
+  "confirm_tab_label": "确认数据",
+  "confirm_user": "确认验证用户?",
+  "for_user": "用户 ",
+  "verify_current_user": "确认验证用户",
+  "propertyInfo": "请输入用户租用单元地址"
 }

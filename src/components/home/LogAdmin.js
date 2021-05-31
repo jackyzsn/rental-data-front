@@ -12,7 +12,7 @@ import { simpleRequest } from '../../utils/Api';
 import { REQUEST_HEADER } from '../../config/defaults';
 import { BACK_GET_VERIFY_REQUEST_URL } from '../../config/endUrl';
 import { Store } from '../../Store';
-import moment from 'moment';
+import VerifyConfirm from '../common/VerifyConfirm';
 
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
@@ -62,6 +62,8 @@ export default function LogAdmin(props) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const { state, dispatch } = useContext(Store);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [userData, setUserData] = useState({});
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -88,24 +90,6 @@ export default function LogAdmin(props) {
   useEffect(() => {
     retrieveVerifyRequest();
   }, []);
-
-  const setCurrentUserVerified = (data) => {
-    //TODO API call to set verified..
-    console.log('Jacky set user to verified: ' + JSON.stringify(data.id));
-
-    var updateRequests = state.verifyRequests.map((req) => {
-      if (req.id === data.id) {
-        req.verified = true;
-        req.verifiedAt = moment().format();
-      }
-      return req;
-    });
-
-    dispatch({
-      type: 'RETRIEVE_VERIFY_REQUESTS',
-      payload: updateRequests
-    });
-  };
 
   const verifyColumns = [
     {
@@ -148,91 +132,96 @@ export default function LogAdmin(props) {
   });
 
   return (
-    <Container component="main" maxWidth="xl">
-      <Grid container spacing={2} style={{ marginBottom: 30 }}>
-        <Grid item xs={12}>
-          <Grid
-            justify="center" // Add it here :)
-            container
-          >
-            <Paper square className={classes.root}>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                variant="fullWidth"
-                indicatorColor="primary"
-                textColor="primary"
-                aria-label="icon label tabs example"
-              >
-                <Tab icon={<EventAvailableIcon />} label={t('confirm_tab_label')} />
-                <Tab icon={<VerifiedUserIcon />} label={t('verify_tab_label')} />
-              </Tabs>
-            </Paper>
+    <React.Fragment>
+      <Container component="main" maxWidth="xl">
+        <Grid container spacing={2} style={{ marginBottom: 30 }}>
+          <Grid item xs={12}>
+            <Grid
+              justify="center" // Add it here :)
+              container
+            >
+              <Paper square className={classes.root}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  variant="fullWidth"
+                  indicatorColor="primary"
+                  textColor="primary"
+                  aria-label="icon label tabs example"
+                >
+                  <Tab icon={<EventAvailableIcon />} label={t('confirm_tab_label')} />
+                  <Tab icon={<VerifiedUserIcon />} label={t('verify_tab_label')} />
+                </Tabs>
+              </Paper>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
 
-      <Grid
-        justify="center" // Add it here :)
-        container
-      >
-        {value === 1 && (
-          <Box>
-            <MaterialTable
-              icons={tableIcons}
-              title=""
-              localization={{
-                pagination: {
-                  labelDisplayedRows: '{from}-{to} of {count}',
-                  labelRowsPerPage: t('rows'),
-                  firstTooltip: t('first_page'),
-                  previousTooltip: t('previous_page'),
-                  nextTooltip: t('next_page'),
-                  lastTooltip: t('last_page'),
-                  labelRowsSelect: t('rows')
-                },
-                toolbar: {
-                  nRowsSelected: `{0} t('r_selected')`,
-                  searchTooltip: t('search'),
-                  searchPlaceholder: t('search')
-                },
-                header: {
-                  actions: t('actions')
-                },
-                body: {
-                  emptyDataSourceMessage: t('no_records'),
-                  filterRow: {
-                    filterTooltip: t('filter')
+        <Grid
+          justify="center" // Add it here :)
+          container
+        >
+          {value === 1 && (
+            <Box>
+              <MaterialTable
+                icons={tableIcons}
+                title=""
+                localization={{
+                  pagination: {
+                    labelDisplayedRows: '{from}-{to} of {count}',
+                    labelRowsPerPage: t('rows'),
+                    firstTooltip: t('first_page'),
+                    previousTooltip: t('previous_page'),
+                    nextTooltip: t('next_page'),
+                    lastTooltip: t('last_page'),
+                    labelRowsSelect: t('rows')
+                  },
+                  toolbar: {
+                    nRowsSelected: `{0} t('r_selected')`,
+                    searchTooltip: t('search'),
+                    searchPlaceholder: t('search')
+                  },
+                  header: {
+                    actions: t('actions')
+                  },
+                  body: {
+                    emptyDataSourceMessage: t('no_records'),
+                    filterRow: {
+                      filterTooltip: t('filter')
+                    }
                   }
-                }
-              }}
-              columns={verifyColumns}
-              data={verifyData}
-              options={{
-                filtering: true
-              }}
-              style={{
-                boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'
-              }}
-              actions={[
-                (rowData) => ({
-                  icon: VerifiedUserIcon,
-                  disabled: rowData.verified ? true : false,
-                  tooltip: t('verify_user'),
-                  onClick: (event, rData) => {
-                    setCurrentUserVerified(rowData);
-                  }
-                })
-              ]}
-            />
-          </Box>
-        )}
-        {value === 0 && (
-          <Typography variant="h5" gutterBottom>
-            You selected 0
-          </Typography>
-        )}
-      </Grid>
-    </Container>
+                }}
+                columns={verifyColumns}
+                data={verifyData}
+                options={{
+                  filtering: true
+                }}
+                style={{
+                  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'
+                }}
+                actions={[
+                  (rowData) => ({
+                    icon: VerifiedUserIcon,
+                    disabled: rowData.verified ? true : false,
+                    tooltip: t('verify_user'),
+                    onClick: (event, rData) => {
+                      setUserData(rData);
+                      setShowConfirm(true);
+                    }
+                  })
+                ]}
+              />
+            </Box>
+          )}
+          {value === 0 && (
+            <Typography variant="h5" gutterBottom>
+              You selected 0
+            </Typography>
+          )}
+        </Grid>
+      </Container>
+
+      {showConfirm && <VerifyConfirm showConfirm={setShowConfirm} userData={userData} />}
+    </React.Fragment>
   );
 }

@@ -32,5 +32,9 @@
   "search": "Search",
   "verify_user": "Verify User",
   "verify_tab_label": "Verify Request",
-  "confirm_tab_label": "Confirm Data"
+  "confirm_tab_label": "Confirm Data",
+  "confirm_user": "Confirm to verify?",
+  "for_user": "For user ",
+  "verify_current_user": "Confirm Verify Current User",
+  "propertyInfo": "Please input user's property information"
 }
