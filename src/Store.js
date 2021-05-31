@@ -10,6 +10,7 @@ const initialState = {
   verified: false,
   loading: false,
   user: {},
+  verifyRequests: [],
   menuList: [],
   zoomLevel: 16
 };
@@ -24,6 +25,8 @@ function reducer(state, action) {
       return { ...state, user: action.payload };
     case 'CHANGE_ADMIN_STATUS':
       return { ...state, isAdmin: action.payload };
+    case 'RETRIEVE_VERIFY_REQUESTS':
+      return { ...state, verifyRequests: action.payload };
     case 'SET_LOADING':
       return { ...state, loading: action.payload };
     case 'SET_MENULIST':

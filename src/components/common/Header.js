@@ -1,11 +1,10 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   AppBar,
   CssBaseline,
   Container,
   Toolbar,
-  Button,
   Typography,
   Link,
   Box,

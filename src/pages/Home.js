@@ -138,7 +138,7 @@ export default function Home(props) {
                 style={{
                   minHeight: '100px',
                   backgroundColor: '#FFFFFF',
-                  boxShadow: '0 10px 15px -2px rgba(0, 0, 0, .3)',
+                  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px',
                   fontSize: '28px'
                 }}
               >
