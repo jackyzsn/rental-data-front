@@ -42,5 +42,14 @@
   "error": "Error",
   "invalid_reading": "Invalid or smaller than last",
   "valid_reading": "",
-  "submit_reading": "Submit Meter Reading"
+  "submit_reading": "Submit Meter Reading",
+  "success_submit": "You successfully submitted the water meter reading. It will be confirmed by the administrator.",
+  "report_month": "Report Month",
+  "reading": "Meter Reading",
+  "entered_at": "Entered At",
+  "accept_flag": "Accepted ?",
+  "accept_at": "Accepted At",
+  "usage_since": "Usage Since Last",
+  "rows_per_page": "Rows per page:",
+  "of": "of"
 }

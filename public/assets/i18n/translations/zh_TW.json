@@ -42,5 +42,14 @@
   "error": "输入错误",
   "invalid_reading": "非法或小于上次读数",
   "valid_reading": "",
-  "submit_reading": "提交水表读数"
+  "submit_reading": "提交水表读数",
+  "success_submit": "您成功提交了水表读数，管理员将会确认",
+  "report_month": "登记月份",
+  "reading": "水表读数",
+  "entered_at": "输入日期",
+  "accept_flag": "确认？",
+  "accept_at": "确认日期",
+  "usage_since": "用量",
+  "rows_per_page": "每页行数：",
+  "of": "之"
 }

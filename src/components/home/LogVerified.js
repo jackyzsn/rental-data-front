@@ -19,63 +19,21 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
-  Button
+  Button,
+  Snackbar
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import { simpleRequest } from '../../utils/Api';
 import { REQUEST_HEADER } from '../../config/defaults';
-import { BACK_GET_PROPERTY_INFO_URL } from '../../config/endUrl';
+import { BACK_GET_PROPERTY_INFO_URL, BACK_SUBMIT_WATER_READING_URL } from '../../config/endUrl';
 import { Store } from '../../Store';
-import { waterMeterPending, waterMeterAccepted } from '../../utils/utility';
+import {
+  waterMeterPending,
+  waterMeterAccepted,
+  readingIsValid,
+  convertAcceptedForDisplay
+} from '../../utils/utility';
 import moment from 'moment';
-
-const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
-  {
-    id: 'population',
-    label: 'Population',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US')
-  },
-  {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US')
-  },
-  {
-    id: 'density',
-    label: 'Density',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2)
-  }
-];
-
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767)
-];
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -99,12 +57,94 @@ export default function LogVerified(props) {
   const { state, dispatch } = useContext(Store);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const { innerWidth: width, innerHeight: height } = window;
-  const [submitReading, setSubmitReading] = useState(true);
-  const [reportMonth, setReportMonth] = useState('');
+  const [reportMonth, setReportMonth] = useState(moment().format('YYYY-MM'));
   const [meterReading, setMeterReading] = useState('');
   const [meterError, setMeterError] = useState(false);
   const [meterLabel, setMeterLabel] = useState('meter_reading');
   const [helpText, setHelpText] = useState('valid_reading');
+  const [open, setOpen] = useState(false);
+
+  const columns = [
+    { id: 'month', label: t('report_month'), minWidth: 170, align: 'center' },
+    {
+      id: 'reading',
+      label: t('reading'),
+      align: 'right',
+      // format: (value) => value.toFixed(2),
+      format: (value) => value.toLocaleString('en-US'),
+      minWidth: 100
+    },
+    {
+      id: 'usage',
+      label: t('usage_since'),
+      align: 'right',
+      // format: (value) => value.toFixed(2),
+      format: (value) => value.toLocaleString('en-US'),
+      minWidth: 100
+    },
+    {
+      id: 'enteredAt',
+      label: t('entered_at'),
+      minWidth: 170,
+      align: 'center'
+    },
+    {
+      id: 'acceptFlag',
+      label: t('accept_flag'),
+      minWidth: 170,
+      align: 'center'
+      // format: (value) => (value ? 'Yes' : 'No')
+    },
+    {
+      id: 'acceptAt',
+      label: t('accept_at'),
+      minWidth: 170,
+      align: 'center'
+    }
+  ];
+
+  // const rows = [
+  //   {
+  //     month: '2021-05',
+  //     reading: 1367.23,
+  //     usage: 100,
+  //     enteredAt: '2021-05-31T19:06:24+00:00',
+  //     acceptAt: '2021-06-01T19:06:24+00:00',
+  //     acceptFlag: 'Yes'
+  //   },
+  //   {
+  //     month: '2021-04',
+  //     reading: 1267.23,
+  //     usage: 100,
+  //     enteredAt: '2021-05-31T19:06:24+00:00',
+  //     acceptAt: '2021-06-01T19:06:24+00:00',
+  //     acceptFlag: 'Yes'
+  //   },
+  //   {
+  //     month: '2021-03',
+  //     reading: 1167.23,
+  //     usage: 100,
+  //     enteredAt: '2021-05-31T19:06:24+00:00',
+  //     acceptAt: '2021-06-01T19:06:24+00:00',
+  //     acceptFlag: 'Yes'
+  //   },
+  //   {
+  //     month: '2021-02',
+  //     reading: 1087.56,
+  //     usage: 100,
+  //     enteredAt: '2021-05-31T19:06:24+00:00',
+  //     acceptAt: '2021-06-01T19:06:24+00:00',
+  //     acceptFlag: 'Yes'
+  //   },
+  //   {
+  //     month: '2021-01',
+  //     reading: 987.78,
+  //     usage: 100,
+  //     enteredAt: '2021-05-31T19:06:24+00:00',
+  //     acceptAt: '2021-06-01T19:06:24+00:00',
+  //     acceptFlag: 'Yes'
+  //   }
+  // ];
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -133,6 +173,20 @@ export default function LogVerified(props) {
     }
   };
 
+  const submitMeterReading = async (month, reading) => {
+    const data = {
+      request: {
+        requestHeader: REQUEST_HEADER,
+        data: {
+          month,
+          reading
+        }
+      }
+    };
+
+    simpleRequest(BACK_SUBMIT_WATER_READING_URL, data, 'POST', dispatch);
+  };
+
   useEffect(() => {
     retrievePropertyInfo();
   }, []);
@@ -146,6 +200,8 @@ export default function LogVerified(props) {
 
   const thisMonth = moment().format('YYYY-MM');
   const previousMonth = moment().subtract(1, 'months').format('YYYY-MM');
+
+  const rows = convertAcceptedForDisplay(acceptedEntries);
 
   var element;
   var reportMonthType;
@@ -206,13 +262,26 @@ export default function LogVerified(props) {
   }
 
   const handleSubmitReading = () => {
-    setMeterError(true);
-    setMeterLabel('error');
-    setHelpText('invalid_reading');
+    if (!readingIsValid(meterReading, acceptedEntries)) {
+      setMeterError(true);
+      setMeterLabel('error');
+      setHelpText('invalid_reading');
+    } else {
+      var vMonth;
+      if (reportMonthType === 1) {
+        vMonth = reportMonth;
+      } else if (reportMonthType === 0) {
+        vMonth = thisMonth;
+      } else if (reportMonthType === 2) {
+        vMonth = pendingEntry.month;
+      }
+      submitMeterReading(vMonth, meterReading);
+      setOpen(true);
+    }
   };
 
   return (
-    <Container component="main" maxWidth="md">
+    <Container component="main" maxWidth="lg">
       <Box display="inline-flex" justifyContent="center" style={{ marginTop: 30 }}>
         <Typography variant="h5" gutterBottom>
           {state.propertyInfo.description}
@@ -322,9 +391,29 @@ export default function LogVerified(props) {
             page={page}
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
+            labelRowsPerPage={t('rows_per_page')}
+            labelDisplayedRows={({ from, to, count }) => `${from}-${to} ${t('of')} ${count}`}
           />
         </Paper>
       </Grid>
+
+      <Snackbar
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+      >
+        <Alert
+          onClose={() => {
+            setOpen(false);
+          }}
+          severity="success"
+        >
+          {t('success_submit')}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }
