@@ -56,7 +56,7 @@ export default function LogVerified(props) {
   const [page, setPage] = React.useState(0);
   const { state, dispatch } = useContext(Store);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const { innerWidth: width, innerHeight: height } = window;
+  const { innerHeight: height } = window;
   const [reportMonth, setReportMonth] = useState(moment().format('YYYY-MM'));
   const [meterReading, setMeterReading] = useState('');
   const [meterError, setMeterError] = useState(false);
@@ -70,7 +70,6 @@ export default function LogVerified(props) {
       id: 'reading',
       label: t('reading'),
       align: 'right',
-      // format: (value) => value.toFixed(2),
       format: (value) => value.toLocaleString('en-US'),
       minWidth: 100
     },
@@ -78,7 +77,6 @@ export default function LogVerified(props) {
       id: 'usage',
       label: t('usage_since'),
       align: 'right',
-      // format: (value) => value.toFixed(2),
       format: (value) => value.toLocaleString('en-US'),
       minWidth: 100
     },
@@ -93,7 +91,6 @@ export default function LogVerified(props) {
       label: t('accept_flag'),
       minWidth: 170,
       align: 'center'
-      // format: (value) => (value ? 'Yes' : 'No')
     },
     {
       id: 'acceptAt',
@@ -102,49 +99,6 @@ export default function LogVerified(props) {
       align: 'center'
     }
   ];
-
-  // const rows = [
-  //   {
-  //     month: '2021-05',
-  //     reading: 1367.23,
-  //     usage: 100,
-  //     enteredAt: '2021-05-31T19:06:24+00:00',
-  //     acceptAt: '2021-06-01T19:06:24+00:00',
-  //     acceptFlag: 'Yes'
-  //   },
-  //   {
-  //     month: '2021-04',
-  //     reading: 1267.23,
-  //     usage: 100,
-  //     enteredAt: '2021-05-31T19:06:24+00:00',
-  //     acceptAt: '2021-06-01T19:06:24+00:00',
-  //     acceptFlag: 'Yes'
-  //   },
-  //   {
-  //     month: '2021-03',
-  //     reading: 1167.23,
-  //     usage: 100,
-  //     enteredAt: '2021-05-31T19:06:24+00:00',
-  //     acceptAt: '2021-06-01T19:06:24+00:00',
-  //     acceptFlag: 'Yes'
-  //   },
-  //   {
-  //     month: '2021-02',
-  //     reading: 1087.56,
-  //     usage: 100,
-  //     enteredAt: '2021-05-31T19:06:24+00:00',
-  //     acceptAt: '2021-06-01T19:06:24+00:00',
-  //     acceptFlag: 'Yes'
-  //   },
-  //   {
-  //     month: '2021-01',
-  //     reading: 987.78,
-  //     usage: 100,
-  //     enteredAt: '2021-05-31T19:06:24+00:00',
-  //     acceptAt: '2021-06-01T19:06:24+00:00',
-  //     acceptFlag: 'Yes'
-  //   }
-  // ];
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
