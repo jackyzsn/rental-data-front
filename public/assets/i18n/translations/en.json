@@ -36,5 +36,11 @@
   "confirm_user": "Confirm to verify?",
   "for_user": "For user ",
   "verify_current_user": "Confirm Verify Current User",
-  "propertyInfo": "Please input user's property information"
+  "propertyInfo": "Please input user's property information",
+  "meter_month": "Report Month",
+  "meter_reading": "Input meter value",
+  "error": "Error",
+  "invalid_reading": "Invalid or smaller than last",
+  "valid_reading": "",
+  "submit_reading": "Submit Meter Reading"
 }

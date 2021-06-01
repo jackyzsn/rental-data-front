@@ -36,5 +36,11 @@
   "confirm_user": "确认验证用户?",
   "for_user": "用户 ",
   "verify_current_user": "确认验证用户",
-  "propertyInfo": "请输入用户租用单元地址"
+  "propertyInfo": "请输入用户租用单元地址",
+  "meter_month": "登记月份",
+  "meter_reading": "输入水表读数",
+  "error": "输入错误",
+  "invalid_reading": "非法或小于上次读数",
+  "valid_reading": "",
+  "submit_reading": "提交水表读数"
 }

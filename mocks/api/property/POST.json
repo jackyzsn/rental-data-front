@@ -1,0 +1,14 @@
+{
+  "status": "0",
+  "data": {
+    "description": "For property Apt 101, 5000 Yonge Street",
+    "data": {
+      "waterMeter": [
+        { "month": "2021-04", "reading": "1167.23", "acceptFlag": true },
+        { "month": "2021-03", "reading": "1167.23", "acceptFlag": true },
+        { "month": "2021-02", "reading": "1087.56", "acceptFlag": true },
+        { "month": "2021-01", "reading": "987.78", "acceptFlag": true }
+      ]
+    }
+  }
+}

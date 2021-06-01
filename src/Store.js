@@ -11,6 +11,7 @@ const initialState = {
   loading: false,
   user: {},
   verifyRequests: [],
+  propertyInfo: {},
   menuList: [],
   zoomLevel: 16
 };
@@ -27,6 +28,8 @@ function reducer(state, action) {
       return { ...state, isAdmin: action.payload };
     case 'RETRIEVE_VERIFY_REQUESTS':
       return { ...state, verifyRequests: action.payload };
+    case 'RETRIEVE_PROPERTY_INFO':
+      return { ...state, propertyInfo: action.payload };
     case 'SET_LOADING':
       return { ...state, loading: action.payload };
     case 'SET_MENULIST':
