@@ -16,14 +16,19 @@ import {
   Drawer,
   Divider,
   List,
-  ListItem
+  ListItem,
+  Button
 } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Store } from '../../Store';
 
 import { simpleRequest } from '../../utils/Api';
 import { REQUEST_HEADER } from '../../config/defaults';
-import { BACK_GET_SESSION_URL, BACK_ADD_SESSION_URL } from '../../config/endUrl';
+import {
+  BACK_GET_SESSION_URL,
+  BACK_ADD_SESSION_URL,
+  BACK_CLEAR_SESSION_URL
+} from '../../config/endUrl';
 import logo from '../../../public/assets/images/FindMyHouseLine.png';
 import { useCookies } from 'react-cookie';
 import clsx from 'clsx';
@@ -174,10 +179,6 @@ export default function Header(props) {
         type: 'CHANGE_ADMIN_STATUS',
         payload: response.isAdmin
       });
-      // dispatch({
-      //   type: 'SET_MENULIST',
-      //   payload: [...DEAULT_MENU_LIST, ...response.user.extraMenuList]
-      // });
     } else {
       dispatch({
         type: 'CHANGE_LOG_STATUS',
@@ -195,10 +196,6 @@ export default function Header(props) {
         type: 'CHANGE_ADMIN_STATUS',
         payload: false
       });
-      // dispatch({
-      //   type: 'SET_MENULIST',
-      //   payload: [...DEAULT_MENU_LIST]
-      // });
     }
   };
 
@@ -213,6 +210,19 @@ export default function Header(props) {
     };
 
     await simpleRequest(BACK_ADD_SESSION_URL, data, 'POST', dispatch);
+  };
+
+  const handleLogout = async () => {
+    const data = {
+      request: {
+        requestHeader: REQUEST_HEADER,
+        data: {}
+      }
+    };
+
+    await simpleRequest(BACK_CLEAR_SESSION_URL, data, 'POST', dispatch);
+
+    await retrieveSession();
   };
 
   // Only want to execute once
@@ -271,6 +281,16 @@ export default function Header(props) {
                 <Typography variant="body1">
                   {t('welcome')} {state.user.name}
                 </Typography>
+              </Box>
+              <Box m={0.5}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  // style={{ marginTop: 8, minHeight: '56px', minWidth: '200px' }}
+                  // onClick={handleSubmitReading}
+                >
+                  {t('logout')}
+                </Button>
               </Box>
             </Box>
           )}
@@ -348,6 +368,11 @@ export default function Header(props) {
                       <Typography variant="body1">
                         {t('welcome')} {state.user.name}
                       </Typography>
+                    </Box>
+                    <Box m={0.5}>
+                      <Button variant="outlined" color="primary" onClick={handleLogout}>
+                        {t('logout')}
+                      </Button>
                     </Box>
                   </Box>
                 )}
