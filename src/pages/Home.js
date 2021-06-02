@@ -48,10 +48,6 @@ const useStyles = makeStyles((theme) => ({
       position: 'absolute',
       left: 64
     }
-  },
-  svg_icon: {
-    transform: 'scale(2.2)',
-    color: '#4F4F4F'
   }
 }));
 
@@ -114,11 +110,11 @@ export default function Home(props) {
                 onClick={() => {
                   window.location = REDIRECT_GOOGLE_SIGN_IN;
                 }}
-                startIcon={<FaGooglePlus className={classes.svg_icon} />}
+                startIcon={<FaGooglePlus style={{ transform: 'scale(2.2)', color: '#DB4437' }} />}
                 style={{
                   minHeight: '100px',
                   backgroundColor: '#FFFFFF',
-                  boxShadow: '0 10px 15px -2px rgba(0, 0, 0, .3)',
+                  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px',
                   fontSize: '28px'
                 }}
               >
@@ -131,7 +127,7 @@ export default function Home(props) {
                 fullWidth
                 variant="contained"
                 className={classes.rootAbsolute}
-                startIcon={<FacebookIcon className={classes.svg_icon} />}
+                startIcon={<FacebookIcon style={{ transform: 'scale(2.2)', color: '#4267B2' }} />}
                 onClick={() => {
                   window.location = REDIRECT_FACEBOOK_SIGN_IN;
                 }}
