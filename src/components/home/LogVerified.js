@@ -138,7 +138,7 @@ export default function LogVerified(props) {
       }
     };
 
-    simpleRequest(BACK_SUBMIT_WATER_READING_URL, data, 'POST', dispatch);
+    await simpleRequest(BACK_SUBMIT_WATER_READING_URL, data, 'POST', dispatch);
   };
 
   useEffect(() => {
@@ -155,7 +155,7 @@ export default function LogVerified(props) {
   const thisMonth = moment().format('YYYY-MM');
   const previousMonth = moment().subtract(1, 'months').format('YYYY-MM');
 
-  const rows = convertAcceptedForDisplay(acceptedEntries);
+  const rows = convertAcceptedForDisplay(pendingEntries.concat(acceptedEntries));
 
   var element;
   var reportMonthType;
@@ -215,7 +215,7 @@ export default function LogVerified(props) {
     reportMonthType = 1;
   }
 
-  const handleSubmitReading = () => {
+  const handleSubmitReading = async () => {
     if (!readingIsValid(meterReading, acceptedEntries)) {
       setMeterError(true);
       setMeterLabel('error');
@@ -229,7 +229,8 @@ export default function LogVerified(props) {
       } else if (reportMonthType === 2) {
         vMonth = pendingEntry.month;
       }
-      submitMeterReading(vMonth, meterReading);
+      await submitMeterReading(vMonth, meterReading);
+      await retrievePropertyInfo();
       setOpen(true);
     }
   };

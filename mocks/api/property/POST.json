@@ -5,13 +5,14 @@
     "data": {
       "waterMeter": [
         {
+          "_id": "60b69c69f82bfb6778b3fc03",
           "month": "2021-05",
           "reading": "1367.23",
           "enteredAt": "2021-05-31T19:06:24+00:00",
-          "acceptAt": "2021-06-01T19:06:24+00:00",
-          "acceptFlag": true
+          "acceptFlag": false
         },
         {
+          "_id": "60b69c69f82bfb6778b3fc03",
           "month": "2021-04",
           "reading": "1267.23",
           "enteredAt": "2021-05-31T19:06:24+00:00",
@@ -19,6 +20,7 @@
           "acceptFlag": true
         },
         {
+          "_id": "60b69c69f82bfb6778b3fc03",
           "month": "2021-03",
           "reading": "1167.23",
           "enteredAt": "2021-05-31T19:06:24+00:00",
@@ -26,6 +28,7 @@
           "acceptFlag": true
         },
         {
+          "_id": "60b69c69f82bfb6778b3fc03",
           "month": "2021-02",
           "reading": "1087.56",
           "enteredAt": "2021-05-31T19:06:24+00:00",
@@ -33,6 +36,7 @@
           "acceptFlag": true
         },
         {
+          "_id": "60b69c69f82bfb6778b3fc03",
           "month": "2021-01",
           "reading": "987.78",
           "enteredAt": "2021-05-31T19:06:24+00:00",
@@ -40,6 +44,7 @@
           "acceptFlag": true
         },
         {
+          "_id": "60b69c69f82bfb6778b3fc03",
           "month": "2020-12",
           "reading": "887.78",
           "enteredAt": "2021-05-31T19:06:24+00:00",
@@ -47,6 +52,7 @@
           "acceptFlag": true
         },
         {
+          "_id": "60b69c69f82bfb6778b3fc03",
           "month": "2020-11",
           "reading": "787.78",
           "enteredAt": "2021-05-31T19:06:24+00:00",
@@ -61,6 +67,7 @@
           "acceptFlag": true
         },
         {
+          "_id": "60b69c69f82bfb6778b3fc03",
           "month": "2020-09",
           "reading": "587.78",
           "enteredAt": "2021-05-31T19:06:24+00:00",
@@ -68,6 +75,7 @@
           "acceptFlag": true
         },
         {
+          "_id": "60b69c69f82bfb6778b3fc03",
           "month": "2020-08",
           "reading": "487.78",
           "enteredAt": "2021-05-31T19:06:24+00:00",
@@ -75,6 +83,7 @@
           "acceptFlag": true
         },
         {
+          "_id": "60b69c69f82bfb6778b3fc03",
           "month": "2020-07",
           "reading": "387.78",
           "enteredAt": "2021-05-31T19:06:24+00:00",
@@ -82,6 +91,7 @@
           "acceptFlag": true
         },
         {
+          "_id": "60b69c69f82bfb6778b3fc03",
           "month": "2020-06",
           "reading": "227.79",
           "enteredAt": "2021-05-31T19:06:24+00:00",
