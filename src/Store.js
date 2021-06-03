@@ -31,8 +31,6 @@ function reducer(state, action) {
       return { ...state, verifyRequests: action.payload };
     case 'RETRIEVE_PROPERTY_INFO':
       return { ...state, propertyInfo: action.payload };
-    case 'RETRIEVE_ALL_VERIFY_REQUESTS':
-      return { ...state, allVerifyRequests: action.payload };
     case 'SET_UNVERIFY_REQUESTS':
       return { ...state, unVerifyCount: action.payload };
     case 'SET_LOADING':

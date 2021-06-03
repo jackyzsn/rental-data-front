@@ -4,7 +4,7 @@ import { Box, DialogActions, Button, Snackbar, Dialog, DialogTitle } from '@mate
 import MaterialTable from 'material-table';
 import { simpleRequest } from '../../utils/Api';
 import { REQUEST_HEADER } from '../../config/defaults';
-import { BACK_GET_PROPERTY_INFO_URL, BACK_CONFIRM_READING_URL } from '../../config/endUrl';
+import { BACK_CONFIRM_READING_URL, BACK_ADMIN_GET_PROPERTY_INFO_URL } from '../../config/endUrl';
 import { Store } from '../../Store';
 import {
   waterMeterPending,
@@ -93,7 +93,7 @@ export default function UseMeterInfo(props) {
       }
     };
 
-    const response = await simpleRequest(BACK_GET_PROPERTY_INFO_URL, data, 'POST', dispatch);
+    const response = await simpleRequest(BACK_ADMIN_GET_PROPERTY_INFO_URL, data, 'POST', dispatch);
 
     if (response.status === '0' && response.data) {
       dispatch({
@@ -118,7 +118,7 @@ export default function UseMeterInfo(props) {
       width: '10%',
       lookup: { Yes: 'Yes', No: 'No' }
     },
-    { title: t('accept_at'), field: 'acceptAt', width: '20%', filtering: false }
+    { title: t('accept_at'), field: 'acceptedAt', width: '20%', filtering: false }
   ];
 
   const dataLoaded = state.propertyInfo.data;

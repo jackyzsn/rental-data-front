@@ -35,7 +35,7 @@ export function convertAcceptedForDisplay(acceptedEntries, numericOnly) {
     row.month = item.month;
     row.reading = parseFloat(item.reading);
     row.enteredAt = item.enteredAt;
-    row.acceptAt = item.acceptAt;
+    row.acceptedAt = item.acceptedAt;
     row.acceptFlag = item.acceptFlag ? 'Yes' : 'No';
 
     return row;

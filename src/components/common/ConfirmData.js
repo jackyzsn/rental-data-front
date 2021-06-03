@@ -12,16 +12,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import { deepPurple } from '@material-ui/core/colors';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import UseMeterInfo from './UseMeterInfo';
-import { simpleRequest } from '../../utils/Api';
-import { REQUEST_HEADER } from '../../config/defaults';
-import { BACK_RETRIEVE_ALL_VERIFIED_URL } from '../../config/endUrl';
+
 import { Store } from '../../Store';
 
 const useRowStyles = makeStyles((theme) => ({
@@ -40,8 +37,7 @@ const useRowStyles = makeStyles((theme) => ({
 }));
 
 function Row(props) {
-  const { row } = props;
-  const [open, setOpen] = React.useState(false);
+  const { row, setExpanded } = props;
   const classes = useRowStyles();
 
   const nameAbv = (row.firstName.substring(0, 1) + row.lastName.substring(0, 1)).toUpperCase();
@@ -54,10 +50,10 @@ function Row(props) {
             aria-label="expand row"
             size="small"
             onClick={() => {
-              setOpen(!open);
+              setExpanded(!row.expanded);
             }}
           >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {row.expanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
@@ -84,11 +80,8 @@ function Row(props) {
 
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
+          <Collapse in={row.expanded} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
-                {row.propertyInfo}
-              </Typography>
               <UseMeterInfo row={row} />
             </Box>
           </Collapse>
@@ -100,43 +93,12 @@ function Row(props) {
 
 export default function ConfirmData() {
   const { t } = useTranslation();
-  const { state, dispatch } = useContext(Store);
+  const { state } = useContext(Store);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-  const retrieveAllVerifiedUsers = async () => {
-    const data = {
-      request: {
-        requestHeader: REQUEST_HEADER,
-        data: {}
-      }
-    };
-
-    const response = await simpleRequest(BACK_RETRIEVE_ALL_VERIFIED_URL, data, 'POST', dispatch);
-
-    if (response.status === '0' && response.data) {
-      dispatch({
-        type: 'RETRIEVE_ALL_VERIFY_REQUESTS',
-        payload: response.data
-      });
-    }
-  };
-
-  useEffect(() => {
-    retrieveAllVerifiedUsers();
-  }, []);
-
-  const rows = state.allVerifyRequests
-    ? state.allVerifyRequests.map((item) => ({
+  const rows = state.verifyRequests
+    ? state.verifyRequests.map((item) => ({
         id: item.id,
         avatar: item.thumbnail,
         firstName: item.firstName,
@@ -147,6 +109,22 @@ export default function ConfirmData() {
         unprocess: item.unprocess
       }))
     : [];
+
+  const [data, setData] = React.useState(rows);
+  const setExpanded = (index) => (value) => {
+    setData(rows.map((row, i) => ({ ...row, expanded: index === i ? value : false })));
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <TableContainer
@@ -168,15 +146,15 @@ export default function ConfirmData() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-            <Row key={row.id} row={row} />
+          {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+            <Row key={row.id} row={row} expanded={false} setExpanded={setExpanded(index)} />
           ))}
         </TableBody>
       </Table>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={data.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}

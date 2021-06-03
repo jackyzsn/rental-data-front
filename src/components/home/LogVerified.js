@@ -93,7 +93,7 @@ export default function LogVerified(props) {
       align: 'center'
     },
     {
-      id: 'acceptAt',
+      id: 'acceptedAt',
       label: t('accept_at'),
       minWidth: 170,
       align: 'center'
