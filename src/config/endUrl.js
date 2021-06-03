@@ -1,5 +1,3 @@
-const baseAPIURL = '';
-
 // Sign in URL from Home
 export const REDIRECT_GOOGLE_SIGN_IN = '/auth/google/web';
 export const REDIRECT_FACEBOOK_SIGN_IN = '/auth/facebook/web';
@@ -14,3 +12,4 @@ export const BACK_SUBMIT_WATER_READING_URL = '/api/submitwater';
 export const BACK_CLEAR_SESSION_URL = '/api/clearsession';
 export const BACK_RETRIEVE_ALL_VERIFIED_URL = '/api/getallverifiedusers';
 export const BACK_CONFIRM_READING_URL = '/api/confirmreading';
+export const BACK_GET_UNVERIFY_COUNT_URL = '/api/unverifycount';

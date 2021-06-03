@@ -10,7 +10,7 @@ import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import { simpleRequest } from '../../utils/Api';
 import { REQUEST_HEADER } from '../../config/defaults';
-import { BACK_GET_VERIFY_REQUEST_URL } from '../../config/endUrl';
+import { BACK_GET_VERIFY_REQUEST_URL, BACK_GET_UNVERIFY_COUNT_URL } from '../../config/endUrl';
 import { Store } from '../../Store';
 import VerifyConfirm from '../common/VerifyConfirm';
 import ConfirmData from '../common/ConfirmData';
@@ -88,8 +88,28 @@ export default function LogAdmin(props) {
     }
   };
 
+  const getUnVerifyCount = async () => {
+    const data = {
+      request: {
+        requestHeader: REQUEST_HEADER,
+        data: {}
+      }
+    };
+
+    const response = await simpleRequest(BACK_GET_UNVERIFY_COUNT_URL, data, 'POST', dispatch);
+
+    if (response.status === '0' && response.count) {
+      dispatch({
+        type: 'SET_UNVERIFY_REQUESTS',
+        payload: response.count
+      });
+    }
+  };
+
   useEffect(() => {
     retrieveVerifyRequest();
+
+    getUnVerifyCount();
   }, []);
 
   const verifyColumns = [
