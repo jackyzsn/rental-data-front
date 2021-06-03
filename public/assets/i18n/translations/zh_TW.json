@@ -51,5 +51,12 @@
   "accept_at": "确认日期",
   "usage_since": "用量",
   "rows_per_page": "每页行数：",
-  "of": "之"
+  "of": "之",
+  "property_info": "租用单元地址",
+  "do_you_confirm": "您将确认水表读数？",
+  "confirm_reading": "确认读数",
+  "yes": "确定",
+  "no": "取消",
+  "success_confirm": "您已经成功确认水表读数",
+  "unconfirm_requests": "您有未处理的请求"
 }

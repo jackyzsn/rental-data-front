@@ -17,9 +17,11 @@ import {
   Divider,
   List,
   ListItem,
-  Button
+  Button,
+  Badge,
+  Popover
 } from '@material-ui/core';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 import { Store } from '../../Store';
 
 import { simpleRequest } from '../../utils/Api';
@@ -101,8 +103,23 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main
+  },
+  popover: {
+    pointerEvents: 'none'
+  },
+  paper: {
+    padding: theme.spacing(1)
   }
 }));
+
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: 10,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px'
+  }
+}))(Badge);
 
 export default function Header(props) {
   const { t, i18n } = useTranslation();
@@ -112,6 +129,17 @@ export default function Header(props) {
   const { innerWidth: width } = window;
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const popOpen = Boolean(anchorEl);
 
   const toDrawer = width < 640 ? true : false;
 
@@ -357,9 +385,47 @@ export default function Header(props) {
                     className={classes.button}
                   >
                     {state.isAdmin && (
-                      <Avatar className={classes.avatar}>
-                        <RiAdminLine />
-                      </Avatar>
+                      <React.Fragment>
+                        {state.unVerifyCount > 0 ? (
+                          <StyledBadge
+                            color="secondary"
+                            badgeContent={state.unVerifyCount}
+                            aria-owns={popOpen ? 'mouse-over-popover' : undefined}
+                            aria-haspopup="true"
+                            onMouseEnter={handlePopoverOpen}
+                            onMouseLeave={handlePopoverClose}
+                          >
+                            <Avatar className={classes.avatar}>
+                              <RiAdminLine />
+                            </Avatar>
+                          </StyledBadge>
+                        ) : (
+                          <Avatar className={classes.avatar}>
+                            <RiAdminLine />
+                          </Avatar>
+                        )}
+                        <Popover
+                          id="mouse-over-popover"
+                          className={classes.popover}
+                          classes={{
+                            paper: classes.paper
+                          }}
+                          open={popOpen}
+                          anchorEl={anchorEl}
+                          anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left'
+                          }}
+                          transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left'
+                          }}
+                          onClose={handlePopoverClose}
+                          disableRestoreFocus
+                        >
+                          <Typography>{t('unconfirm_requests')}</Typography>
+                        </Popover>
+                      </React.Fragment>
                     )}
                     {state.user.thumbnail && (
                       <Avatar alt={state.user.name} src={state.user.thumbnail} />

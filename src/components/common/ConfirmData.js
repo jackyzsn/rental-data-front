@@ -1,0 +1,187 @@
+import React, { useEffect, useContext } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+import Badge from '@material-ui/core/Badge';
+import { useTranslation } from 'react-i18next';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TablePagination from '@material-ui/core/TablePagination';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Avatar from '@material-ui/core/Avatar';
+import { deepPurple } from '@material-ui/core/colors';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import UseMeterInfo from './UseMeterInfo';
+import { simpleRequest } from '../../utils/Api';
+import { REQUEST_HEADER } from '../../config/defaults';
+import { BACK_RETRIEVE_ALL_VERIFIED_URL } from '../../config/endUrl';
+import { Store } from '../../Store';
+
+const useRowStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      borderBottom: 'unset'
+    }
+  },
+  container: {
+    maxHeight: 440
+  },
+  purple: {
+    color: theme.palette.getContrastText(deepPurple[500]),
+    backgroundColor: deepPurple[500]
+  }
+}));
+
+function Row(props) {
+  const { row } = props;
+  const [open, setOpen] = React.useState(false);
+  const classes = useRowStyles();
+
+  const nameAbv = (row.firstName.substring(0, 1) + row.lastName.substring(0, 1)).toUpperCase();
+
+  return (
+    <React.Fragment>
+      <TableRow className={classes.root}>
+        <TableCell>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => {
+              setOpen(!open);
+            }}
+          >
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell component="th" scope="row">
+          {row.unprocess ? (
+            <Badge color="secondary" variant="dot">
+              {row.avatar ? (
+                <img src={row.avatar} alt="thumbnail" style={{ width: 40, borderRadius: '50%' }} />
+              ) : (
+                <Avatar className={classes.purple}>{nameAbv}</Avatar>
+              )}
+            </Badge>
+          ) : row.avatar ? (
+            <img src={row.avatar} alt="thumbnail" style={{ width: 40, borderRadius: '50%' }} />
+          ) : (
+            <Avatar className={classes.purple}>{nameAbv}</Avatar>
+          )}
+        </TableCell>
+        <TableCell align="center">{row.firstName}</TableCell>
+        <TableCell align="center">{row.lastName}</TableCell>
+        <TableCell align="center">{row.email}</TableCell>
+        <TableCell align="center">{row.fromWhere}</TableCell>
+        <TableCell align="center">{row.propertyInfo}</TableCell>
+      </TableRow>
+
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box margin={1}>
+              <Typography variant="h6" gutterBottom component="div">
+                {row.propertyInfo}
+              </Typography>
+              <UseMeterInfo row={row} />
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </React.Fragment>
+  );
+}
+
+export default function ConfirmData() {
+  const { t } = useTranslation();
+  const { state, dispatch } = useContext(Store);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  const retrieveAllVerifiedUsers = async () => {
+    const data = {
+      request: {
+        requestHeader: REQUEST_HEADER,
+        data: {}
+      }
+    };
+
+    const response = await simpleRequest(BACK_RETRIEVE_ALL_VERIFIED_URL, data, 'POST', dispatch);
+
+    if (response.status === '0' && response.data) {
+      dispatch({
+        type: 'RETRIEVE_ALL_VERIFY_REQUESTS',
+        payload: response.data
+      });
+    }
+  };
+
+  useEffect(() => {
+    retrieveAllVerifiedUsers();
+  }, []);
+
+  const rows = state.allVerifyRequests
+    ? state.allVerifyRequests.map((item) => ({
+        id: item.id,
+        avatar: item.thumbnail,
+        firstName: item.firstName,
+        lastName: item.lastName,
+        email: item.email,
+        fromWhere: item.fromWhere,
+        propertyInfo: item.propertyInfo,
+        unprocess: item.unprocess
+      }))
+    : [];
+
+  return (
+    <TableContainer
+      component={Paper}
+      style={{
+        boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px'
+      }}
+    >
+      <Table aria-label="collapsible table">
+        <TableHead>
+          <TableRow>
+            <TableCell />
+            <TableCell align="center">{t('avatar')}</TableCell>
+            <TableCell align="center">{t('first_name')}</TableCell>
+            <TableCell align="center">{t('last_name')}</TableCell>
+            <TableCell align="center">{t('email')}</TableCell>
+            <TableCell align="center">{t('from_where')}</TableCell>
+            <TableCell align="center">{t('property_info')}</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+            <Row key={row.id} row={row} />
+          ))}
+        </TableBody>
+      </Table>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+    </TableContainer>
+  );
+}

@@ -155,7 +155,7 @@ export default function LogVerified(props) {
   const thisMonth = moment().format('YYYY-MM');
   const previousMonth = moment().subtract(1, 'months').format('YYYY-MM');
 
-  const rows = convertAcceptedForDisplay(pendingEntries.concat(acceptedEntries));
+  const rows = convertAcceptedForDisplay(pendingEntries.concat(acceptedEntries), true);
 
   var element;
   var reportMonthType;

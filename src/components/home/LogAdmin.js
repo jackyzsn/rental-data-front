@@ -13,6 +13,7 @@ import { REQUEST_HEADER } from '../../config/defaults';
 import { BACK_GET_VERIFY_REQUEST_URL } from '../../config/endUrl';
 import { Store } from '../../Store';
 import VerifyConfirm from '../common/VerifyConfirm';
+import ConfirmData from '../common/ConfirmData';
 
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
@@ -156,12 +157,14 @@ export default function LogAdmin(props) {
             </Grid>
           </Grid>
         </Grid>
+      </Container>
 
-        <Grid
-          justify="center" // Add it here :)
-          container
-        >
-          {value === 1 && (
+      {value === 1 && (
+        <Container component="main" maxWidth="xl">
+          <Grid
+            justify="center" // Add it here :)
+            container
+          >
             <Box>
               <MaterialTable
                 icons={tableIcons}
@@ -212,14 +215,19 @@ export default function LogAdmin(props) {
                 ]}
               />
             </Box>
-          )}
-          {value === 0 && (
-            <Typography variant="h5" gutterBottom>
-              You selected 0
-            </Typography>
-          )}
-        </Grid>
-      </Container>
+          </Grid>
+        </Container>
+      )}
+      {value === 0 && (
+        <Container component="main" maxWidth="lg">
+          <Grid
+            justify="center" // Add it here :)
+            container
+          >
+            <ConfirmData />
+          </Grid>
+        </Container>
+      )}
 
       {showConfirm && <VerifyConfirm showConfirm={setShowConfirm} userData={userData} />}
     </React.Fragment>

@@ -25,7 +25,7 @@ export function readingIsValid(reading, acceptedEntries) {
   return readingFloat >= lastReading;
 }
 
-export function convertAcceptedForDisplay(acceptedEntries) {
+export function convertAcceptedForDisplay(acceptedEntries, numericOnly) {
   if (acceptedEntries.length === 0) {
     return [];
   }
@@ -46,7 +46,13 @@ export function convertAcceptedForDisplay(acceptedEntries) {
     if (i === tmpRst.length - 1) {
       tmpRst[i].usage = 0;
     } else {
-      tmpRst[i].usage = tmpRst[i].reading - tmpRst[i + 1].reading;
+      var tmpNum = tmpRst[i].reading - tmpRst[i + 1].reading;
+      if (numericOnly) {
+        tmpRst[i].usage = tmpNum;
+      } else {
+        tmpRst[i].usage = tmpNum.toLocaleString('en-US');
+        tmpRst[i].reading = tmpRst[i].reading.toLocaleString('en-US');
+      }
     }
   }
   return tmpRst;

@@ -51,5 +51,12 @@
   "accept_at": "Accepted At",
   "usage_since": "Usage Since Last",
   "rows_per_page": "Rows per page:",
-  "of": "of"
+  "of": "of",
+  "property_info": "Property Information",
+  "do_you_confirm": "Do you want to confirm the meter reading?",
+  "confirm_reading": "Confirm Reading",
+  "yes": "Yes",
+  "no": "No",
+  "success_confirm": "You successfully confirmed the meter reading.",
+  "unconfirm_requests": "You have pending requests"
 }
