@@ -36,7 +36,7 @@ const useRowStyles = makeStyles((theme) => ({
 }));
 
 function Row(props) {
-  const { row } = props;
+  const { row, inx } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
 
@@ -82,7 +82,7 @@ function Row(props) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <UseMeterInfo row={row} />
+              <UseMeterInfo row={row} inx={inx} />
             </Box>
           </Collapse>
         </TableCell>
@@ -95,7 +95,7 @@ export default function ConfirmData(props) {
   const { t } = useTranslation();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const { state, dispatch } = useContext(Store);
+  const { state } = useContext(Store);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -142,7 +142,7 @@ export default function ConfirmData(props) {
         </TableHead>
         <TableBody>
           {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
-            <Row key={row.id} row={row} />
+            <Row key={row.id} row={row} inx={index} />
           ))}
         </TableBody>
       </Table>

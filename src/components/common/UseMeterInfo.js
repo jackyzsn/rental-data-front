@@ -57,7 +57,7 @@ const tableIcons = {
 
 export default function UseMeterInfo(props) {
   const { t } = useTranslation();
-  const { row } = props;
+  const { row, inx } = props;
 
   const { state, dispatch } = useContext(Store);
   const [meterData, setMeterData] = useState({});
@@ -146,15 +146,18 @@ export default function UseMeterInfo(props) {
       );
 
       if (response.status === '0' && response.data) {
+        const item = {};
+        item.inx = inx;
+        item.data = response.data;
         dispatch({
-          type: 'RETRIEVE_PROPERTY_INFO',
-          payload: response.data
+          type: 'RETRIEVE_PROPERTY_INFO_MAP',
+          payload: item
         });
       }
     };
 
     retrieveVerifyRequest(row.id);
-  }, [reload, dispatch, row.id]);
+  }, [reload, dispatch, row.id, inx]);
 
   const verifyColumns = [
     { title: t('report_month'), field: 'month', width: '10%' },
@@ -170,10 +173,14 @@ export default function UseMeterInfo(props) {
     { title: t('accept_at'), field: 'acceptedAt', width: '20%', filtering: false }
   ];
 
-  const dataLoaded = state.propertyInfo.data;
+  const dataLoaded = state.propertyInfoMap.get(inx);
 
-  const pendingEntries = dataLoaded ? waterMeterPending(state.propertyInfo.data.waterMeter) : [];
-  const acceptedEntries = dataLoaded ? waterMeterAccepted(state.propertyInfo.data.waterMeter) : [];
+  const pendingEntries = dataLoaded
+    ? waterMeterPending(state.propertyInfoMap.get(inx).data.waterMeter)
+    : [];
+  const acceptedEntries = dataLoaded
+    ? waterMeterAccepted(state.propertyInfoMap.get(inx).data.waterMeter)
+    : [];
   const verifyData = convertAcceptedForDisplay(pendingEntries.concat(acceptedEntries), false);
 
   return (

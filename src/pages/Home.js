@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Home(props) {
   const { t, i18n } = useTranslation();
   const classes = useStyles();
-  const { state, dispatch } = useContext(Store);
+  const { state } = useContext(Store);
   const [cookies, setCookie] = useCookies(['lang']);
 
   const lang = cookies.lang ? cookies.lang : 'en';

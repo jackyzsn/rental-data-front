@@ -12,6 +12,7 @@ const initialState = {
   user: {},
   verifyRequests: [],
   propertyInfo: {},
+  propertyInfoMap: new Map(),
   unVerifyCount: 0,
   zoomLevel: 16
 };
@@ -30,6 +31,11 @@ function reducer(state, action) {
       return { ...state, verifyRequests: action.payload };
     case 'RETRIEVE_PROPERTY_INFO':
       return { ...state, propertyInfo: action.payload };
+    case 'RETRIEVE_PROPERTY_INFO_MAP':
+      return {
+        ...state,
+        propertyInfoMap: new Map(state.propertyInfoMap.set(action.payload.inx, action.payload.data))
+      };
     case 'SET_UNVERIFY_REQUESTS':
       return { ...state, unVerifyCount: action.payload };
     case 'SET_LOADING':
