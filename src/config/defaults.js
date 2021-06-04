@@ -19,11 +19,3 @@ export const GPS_REQUEST = {
   washroom: { low: 0, high: 6 },
   garage: { low: 0, high: 6 }
 };
-
-export const APPOINTMENT_RECEIVE_EMAIL = 'jacky_zsn@yahoo.ca';
-
-export const SEND_APPOINTMENT_EMAIL = true;
-
-export const BACK_AUTH_HEADER = {
-  Authorization: 'Basic bW9iaWxlOmFiY2RlZmdoaWprMTIzNDU2Nzg5'
-};

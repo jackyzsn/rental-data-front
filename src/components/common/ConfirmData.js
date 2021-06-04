@@ -18,7 +18,6 @@ import { deepPurple } from '@material-ui/core/colors';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import UseMeterInfo from './UseMeterInfo';
-
 import { Store } from '../../Store';
 
 const useRowStyles = makeStyles((theme) => ({
@@ -91,11 +90,11 @@ function Row(props) {
   );
 }
 
-export default function ConfirmData() {
+export default function ConfirmData(props) {
   const { t } = useTranslation();
-  const { state } = useContext(Store);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const { state, dispatch } = useContext(Store);
 
   const rows = state.verifyRequests
     ? state.verifyRequests.map((item) => ({

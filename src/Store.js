@@ -13,7 +13,6 @@ const initialState = {
   verifyRequests: [],
   propertyInfo: {},
   unVerifyCount: 0,
-  reloadCounter: 0,
   zoomLevel: 16
 };
 
@@ -35,8 +34,6 @@ function reducer(state, action) {
       return { ...state, unVerifyCount: action.payload };
     case 'SET_LOADING':
       return { ...state, loading: action.payload };
-    case 'SET_RELOAD_COUNTER':
-      return { ...state, reloadCounter: action.payload };
     case 'SET_ZOOMLEVEL':
       return { ...state, zoomLevel: action.payload };
     default:

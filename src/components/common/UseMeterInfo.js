@@ -83,29 +83,34 @@ export default function UseMeterInfo(props) {
     setReload(reload + 1);
   };
 
-  const retrieveVerifyRequest = async (authUserId) => {
-    const data = {
-      request: {
-        requestHeader: REQUEST_HEADER,
-        data: {
-          authUserId: authUserId
+  useEffect(() => {
+    const retrieveVerifyRequest = async (authUserId) => {
+      const data = {
+        request: {
+          requestHeader: REQUEST_HEADER,
+          data: {
+            authUserId: authUserId
+          }
         }
+      };
+
+      const response = await simpleRequest(
+        BACK_ADMIN_GET_PROPERTY_INFO_URL,
+        data,
+        'POST',
+        dispatch
+      );
+
+      if (response.status === '0' && response.data) {
+        dispatch({
+          type: 'RETRIEVE_PROPERTY_INFO',
+          payload: response.data
+        });
       }
     };
 
-    const response = await simpleRequest(BACK_ADMIN_GET_PROPERTY_INFO_URL, data, 'POST', dispatch);
-
-    if (response.status === '0' && response.data) {
-      dispatch({
-        type: 'RETRIEVE_PROPERTY_INFO',
-        payload: response.data
-      });
-    }
-  };
-
-  useEffect(() => {
     retrieveVerifyRequest(row.id);
-  }, [reload]);
+  }, [reload, dispatch, row.id]);
 
   const verifyColumns = [
     { title: t('report_month'), field: 'month', width: '10%' },
