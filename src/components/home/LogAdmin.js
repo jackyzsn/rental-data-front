@@ -61,7 +61,7 @@ const useStyles = makeStyles({
 export default function LogAdmin(props) {
   const { t } = useTranslation();
   const classes = useStyles();
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(0);
   const { state, dispatch } = useContext(Store);
   const [showConfirm, setShowConfirm] = useState(false);
   const [userData, setUserData] = useState({});

@@ -36,7 +36,8 @@ const useRowStyles = makeStyles((theme) => ({
 }));
 
 function Row(props) {
-  const { row, setExpanded } = props;
+  const { row } = props;
+  const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
 
   const nameAbv = (row.firstName.substring(0, 1) + row.lastName.substring(0, 1)).toUpperCase();
@@ -49,10 +50,10 @@ function Row(props) {
             aria-label="expand row"
             size="small"
             onClick={() => {
-              setExpanded(!row.expanded);
+              setOpen(!open);
             }}
           >
-            {row.expanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
@@ -79,7 +80,7 @@ function Row(props) {
 
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
-          <Collapse in={row.expanded} timeout="auto" unmountOnExit>
+          <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <UseMeterInfo row={row} />
             </Box>
@@ -96,6 +97,17 @@ export default function ConfirmData(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const { state, dispatch } = useContext(Store);
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  useEffect(() => {}, []);
+
   const rows = state.verifyRequests
     ? state.verifyRequests.map((item) => ({
         id: item.id,
@@ -108,22 +120,6 @@ export default function ConfirmData(props) {
         unprocess: item.unprocess
       }))
     : [];
-
-  const [data, setData] = React.useState(rows);
-  const setExpanded = (index) => (value) => {
-    setData(rows.map((row, i) => ({ ...row, expanded: index === i ? value : false })));
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-  useEffect(() => {}, []);
 
   return (
     <TableContainer
@@ -145,15 +141,15 @@ export default function ConfirmData(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
-            <Row key={row.id} row={row} expanded={false} setExpanded={setExpanded(index)} />
+          {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+            <Row key={row.id} row={row} />
           ))}
         </TableBody>
       </Table>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={data.length}
+        count={rows.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}

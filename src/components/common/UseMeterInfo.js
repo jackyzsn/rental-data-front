@@ -4,7 +4,12 @@ import { Box, DialogActions, Button, Snackbar, Dialog, DialogTitle } from '@mate
 import MaterialTable from 'material-table';
 import { simpleRequest } from '../../utils/Api';
 import { REQUEST_HEADER } from '../../config/defaults';
-import { BACK_CONFIRM_READING_URL, BACK_ADMIN_GET_PROPERTY_INFO_URL } from '../../config/endUrl';
+import {
+  BACK_CONFIRM_READING_URL,
+  BACK_ADMIN_GET_PROPERTY_INFO_URL,
+  BACK_GET_UNVERIFY_COUNT_URL,
+  BACK_GET_VERIFY_REQUEST_URL
+} from '../../config/endUrl';
 import { Store } from '../../Store';
 import {
   waterMeterPending,
@@ -79,8 +84,47 @@ export default function UseMeterInfo(props) {
 
     setOpen(false);
     setSuccessMessageOpen(true);
-
     setReload(reload + 1);
+
+    const getUnVerifyCount = async () => {
+      const vData = {
+        request: {
+          requestHeader: REQUEST_HEADER,
+          data: {}
+        }
+      };
+
+      const response = await simpleRequest(BACK_GET_UNVERIFY_COUNT_URL, vData, 'POST', dispatch);
+
+      if (response.status === '0' && response.count) {
+        dispatch({
+          type: 'SET_UNVERIFY_REQUESTS',
+          payload: response.count
+        });
+      }
+    };
+
+    getUnVerifyCount();
+
+    const retrieveVerifyRequest = async () => {
+      const vData = {
+        request: {
+          requestHeader: REQUEST_HEADER,
+          data: {}
+        }
+      };
+
+      const response = await simpleRequest(BACK_GET_VERIFY_REQUEST_URL, vData, 'POST', dispatch);
+
+      if (response.status === '0' && response.data) {
+        dispatch({
+          type: 'RETRIEVE_VERIFY_REQUESTS',
+          payload: response.data
+        });
+      }
+    };
+
+    retrieveVerifyRequest();
   };
 
   useEffect(() => {
