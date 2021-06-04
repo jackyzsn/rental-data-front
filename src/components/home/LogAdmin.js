@@ -1,6 +1,6 @@
 import React, { forwardRef, useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Container, Typography, Grid, Box } from '@material-ui/core';
+import { Container, Grid, Box } from '@material-ui/core';
 import MaterialTable from 'material-table';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
@@ -61,7 +61,7 @@ const useStyles = makeStyles({
 export default function LogAdmin(props) {
   const { t } = useTranslation();
   const classes = useStyles();
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
   const { state, dispatch } = useContext(Store);
   const [showConfirm, setShowConfirm] = useState(false);
   const [userData, setUserData] = useState({});
@@ -70,47 +70,47 @@ export default function LogAdmin(props) {
     setValue(newValue);
   };
 
-  const retrieveVerifyRequest = async () => {
-    const data = {
-      request: {
-        requestHeader: REQUEST_HEADER,
-        data: {}
-      }
-    };
-
-    const response = await simpleRequest(BACK_GET_VERIFY_REQUEST_URL, data, 'POST', dispatch);
-
-    if (response.status === '0' && response.data) {
-      dispatch({
-        type: 'RETRIEVE_VERIFY_REQUESTS',
-        payload: response.data
-      });
-    }
-  };
-
-  const getUnVerifyCount = async () => {
-    const data = {
-      request: {
-        requestHeader: REQUEST_HEADER,
-        data: {}
-      }
-    };
-
-    const response = await simpleRequest(BACK_GET_UNVERIFY_COUNT_URL, data, 'POST', dispatch);
-
-    if (response.status === '0' && response.count) {
-      dispatch({
-        type: 'SET_UNVERIFY_REQUESTS',
-        payload: response.count
-      });
-    }
-  };
-
   useEffect(() => {
+    const retrieveVerifyRequest = async () => {
+      const data = {
+        request: {
+          requestHeader: REQUEST_HEADER,
+          data: {}
+        }
+      };
+
+      const response = await simpleRequest(BACK_GET_VERIFY_REQUEST_URL, data, 'POST', dispatch);
+
+      if (response.status === '0' && response.data) {
+        dispatch({
+          type: 'RETRIEVE_VERIFY_REQUESTS',
+          payload: response.data
+        });
+      }
+    };
+
+    const getUnVerifyCount = async () => {
+      const data = {
+        request: {
+          requestHeader: REQUEST_HEADER,
+          data: {}
+        }
+      };
+
+      const response = await simpleRequest(BACK_GET_UNVERIFY_COUNT_URL, data, 'POST', dispatch);
+
+      if (response.status === '0' && response.count) {
+        dispatch({
+          type: 'SET_UNVERIFY_REQUESTS',
+          payload: response.count
+        });
+      }
+    };
+
     retrieveVerifyRequest();
 
     getUnVerifyCount();
-  }, []);
+  }, [dispatch]);
 
   const verifyColumns = [
     {

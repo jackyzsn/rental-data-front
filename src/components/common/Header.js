@@ -151,33 +151,33 @@ export default function Header(props) {
     setOpen(false);
   };
 
-  const menus = state.menuList.map((r, index) => (
-    <Link
-      key={index}
-      variant="body1"
-      underline="none"
-      color="textPrimary"
-      href={r.url}
-      className={classes.link}
-    >
-      {t(r.labelKey)}
-    </Link>
-  ));
+  // const menus = state.menuList.map((r, index) => (
+  //   <Link
+  //     key={index}
+  //     variant="body1"
+  //     underline="none"
+  //     color="textPrimary"
+  //     href={r.url}
+  //     className={classes.link}
+  //   >
+  //     {t(r.labelKey)}
+  //   </Link>
+  // ));
 
-  const menusDrawer = state.menuList.map((r, index) => (
-    <ListItem key={index}>
-      <Link
-        key={index}
-        variant="body1"
-        underline="none"
-        color="textPrimary"
-        href={r.url}
-        className={classes.link}
-      >
-        {t(r.labelKey)}
-      </Link>
-    </ListItem>
-  ));
+  // const menusDrawer = state.menuList.map((r, index) => (
+  //   <ListItem key={index}>
+  //     <Link
+  //       key={index}
+  //       variant="body1"
+  //       underline="none"
+  //       color="textPrimary"
+  //       href={r.url}
+  //       className={classes.link}
+  //     >
+  //       {t(r.labelKey)}
+  //     </Link>
+  //   </ListItem>
+  // ));
 
   const retrieveSession = async () => {
     const data = {
@@ -352,7 +352,7 @@ export default function Header(props) {
               {t('home')}
             </Link>
           </ListItem>
-          {menusDrawer}
+          {/* {menusDrawer} */}
         </List>
       </Drawer>
     </>
@@ -376,7 +376,7 @@ export default function Header(props) {
                 direction="row"
                 data-testid="menu_container"
               >
-                {menus}
+                {/* {menus} */}
                 {state.logged && (
                   <Box
                     alignItems="center"

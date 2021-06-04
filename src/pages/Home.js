@@ -144,9 +144,9 @@ export default function Home(props) {
           </Grid>
         </Container>
       )}
-      {state.logged && !state.verified && !state.isAdmin && <LogMain />}
-      {state.logged && state.isAdmin && <LogAdmin />}
-      {state.logged && !state.isAdmin && state.verified && <LogVerified />}
+
+      {state.logged &&
+        (state.isAdmin ? <LogAdmin /> : state.verified ? <LogVerified /> : <LogMain />)}
 
       <Container component="main" maxWidth="sm">
         <CssBaseline />
