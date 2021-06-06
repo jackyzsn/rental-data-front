@@ -1,6 +1,6 @@
 {
   "status": "0",
-  "logged": true,
+  "logged": false,
   "verified": true,
   "isAdmin": true,
   "user": {

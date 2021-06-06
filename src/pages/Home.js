@@ -2,10 +2,15 @@ import React, { useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Avatar, useScrollTrigger, Zoom, Fab, Button, Grid } from '@material-ui/core';
+import { Avatar, useScrollTrigger, Zoom, Fab, Button, Grid, Box, Link } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
-import { REDIRECT_GOOGLE_SIGN_IN, REDIRECT_FACEBOOK_SIGN_IN } from '../config/endUrl';
+import {
+  REDIRECT_GOOGLE_SIGN_IN,
+  REDIRECT_FACEBOOK_SIGN_IN,
+  REDIRECT_GITHUB_SIGN_IN,
+  REDIRECT_LINKEDIN_SIGN_IN
+} from '../config/endUrl';
 import { Store } from '../Store';
 import Header from '../components/common/Header';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
@@ -16,6 +21,8 @@ import { FaGooglePlus } from 'react-icons/fa';
 import LogMain from '../components/home/LogMain';
 import LogVerified from '../components/home/LogVerified';
 import LogAdmin from '../components/home/LogAdmin';
+import GithubLogo from '../../public/assets/images/GitHub-Mark-120px-plus.png';
+import LinkedinLogo from '../../public/assets/images/LI-In-Bug.png';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -121,7 +128,7 @@ export default function Home(props) {
                 {t('sign_in_google')}
               </Button>
             </Grid>
-            <Grid item xs={12} style={{ marginTop: 80, marginBottom: 200 }}>
+            <Grid item xs={12} style={{ marginTop: 80, marginBottom: 30 }}>
               <Button
                 margin="normal"
                 fullWidth
@@ -140,6 +147,35 @@ export default function Home(props) {
               >
                 {t('sign_in_facebook')}
               </Button>
+            </Grid>
+            <Grid item xs={12} style={{ marginTop: 80, marginBottom: 50 }}>
+              <Grid
+                container
+                justifyContent="center"
+                alignContent="center"
+                justify="center"
+                direction="row"
+              >
+                <Link
+                  href="#"
+                  onClick={() => {
+                    window.location = REDIRECT_GITHUB_SIGN_IN;
+                  }}
+                  style={{ marginLeft: 20, marginRight: 20 }}
+                >
+                  <img src={GithubLogo} alt="Github Logo" height="64" />
+                </Link>
+
+                <Link
+                  href="#"
+                  onClick={() => {
+                    window.location = REDIRECT_LINKEDIN_SIGN_IN;
+                  }}
+                  style={{ marginLeft: 20, marginRight: 20 }}
+                >
+                  <img src={LinkedinLogo} alt="Linkedin Logo" height="64" />
+                </Link>
+              </Grid>
             </Grid>
           </Grid>
         </Container>
