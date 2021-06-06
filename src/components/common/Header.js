@@ -300,9 +300,47 @@ export default function Header(props) {
               className={classes.button}
             >
               {state.isAdmin && (
-                <Avatar className={classes.avatar}>
-                  <RiAdminLine />
-                </Avatar>
+                <React.Fragment>
+                  {state.unVerifyCount > 0 ? (
+                    <StyledBadge
+                      color="secondary"
+                      badgeContent={state.unVerifyCount}
+                      aria-owns={popOpen ? 'mouse-over-popover' : undefined}
+                      aria-haspopup="true"
+                      onMouseEnter={handlePopoverOpen}
+                      onMouseLeave={handlePopoverClose}
+                    >
+                      <Avatar className={classes.avatar}>
+                        <RiAdminLine />
+                      </Avatar>
+                    </StyledBadge>
+                  ) : (
+                    <Avatar className={classes.avatar}>
+                      <RiAdminLine />
+                    </Avatar>
+                  )}
+                  <Popover
+                    id="mouse-over-popover"
+                    className={classes.popover}
+                    classes={{
+                      paper: classes.paper
+                    }}
+                    open={popOpen}
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'left'
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left'
+                    }}
+                    onClose={handlePopoverClose}
+                    disableRestoreFocus
+                  >
+                    <Typography>{t('unconfirm_requests')}</Typography>
+                  </Popover>
+                </React.Fragment>
               )}
               {state.user.thumbnail && <Avatar alt={state.user.name} src={state.user.thumbnail} />}
               <Box m={0.5}>
@@ -313,9 +351,8 @@ export default function Header(props) {
               <Box m={0.5}>
                 <Button
                   variant="outlined"
-                  color="primary"
-                  // style={{ marginTop: 8, minHeight: '56px', minWidth: '200px' }}
-                  // onClick={handleSubmitReading}
+                  style={{ color: '#FFFFFF', borderColor: '#FFFFFF' }}
+                  onClick={handleLogout}
                 >
                   {t('logout')}
                 </Button>
