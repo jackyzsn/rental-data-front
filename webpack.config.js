@@ -13,7 +13,7 @@ module.exports = (env) => {
       maxEntrypointSize: 512000,
       maxAssetSize: 512000
     },
-    entry: ['@babel/polyfill', './src/index.js'],
+    entry: ['./src/index.js'],
     output: {
       path: path.join(__dirname, outputDirectory),
       filename: 'myapp.[contenthash].js',
