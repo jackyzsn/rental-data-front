@@ -2,17 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import {
-  Avatar,
-  useScrollTrigger,
-  Zoom,
-  Fab,
-  Button,
-  Grid,
-  Box,
-  Link,
-  ButtonBase
-} from '@material-ui/core';
+import { Avatar, useScrollTrigger, Zoom, Fab, Grid, Link, ButtonBase } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -26,8 +16,6 @@ import Header from '../components/common/Header';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { useCookies } from 'react-cookie';
 import Footer from '../components/common/Footer';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import { FaGooglePlus } from 'react-icons/fa';
 import LogMain from '../components/home/LogMain';
 import LogVerified from '../components/home/LogVerified';
 import LogAdmin from '../components/home/LogAdmin';
@@ -185,24 +173,6 @@ export default function Home(props) {
         <Container component="main" maxWidth="sm">
           <Grid container spacing={2} style={{ marginTop: 100, marginBottom: 30 }}>
             <Grid item xs={12}>
-              {/* <Button
-                margin="normal"
-                fullWidth
-                variant="contained"
-                className={classes.rootAbsolute}
-                onClick={() => {
-                  window.location = REDIRECT_GOOGLE_SIGN_IN;
-                }}
-                startIcon={<FaGooglePlus style={{ transform: 'scale(2.2)', color: '#DB4437' }} />}
-                style={{
-                  minHeight: '100px',
-                  backgroundColor: '#FFFFFF',
-                  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px',
-                  fontSize: '28px'
-                }}
-              >
-                {t('sign_in_google')}
-              </Button> */}
               <ButtonBase
                 focusRipple
                 className={classes.image}
@@ -225,24 +195,6 @@ export default function Home(props) {
               </ButtonBase>
             </Grid>
             <Grid item xs={12} style={{ marginTop: 80, marginBottom: 30 }}>
-              {/* <Button
-                margin="normal"
-                fullWidth
-                variant="contained"
-                className={classes.rootAbsolute}
-                startIcon={<FacebookIcon style={{ transform: 'scale(2.2)', color: '#4267B2' }} />}
-                onClick={() => {
-                  window.location = REDIRECT_FACEBOOK_SIGN_IN;
-                }}
-                style={{
-                  minHeight: '100px',
-                  backgroundColor: '#FFFFFF',
-                  boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px',
-                  fontSize: '28px'
-                }}
-              >
-                {t('sign_in_facebook')}
-              </Button> */}
               <ButtonBase
                 focusRipple
                 className={classes.image}
