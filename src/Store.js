@@ -9,6 +9,7 @@ const initialState = {
   logged: false,
   verified: false,
   loading: false,
+  isAdmin: false,
   user: {},
   verifyRequests: [],
   propertyInfo: {},

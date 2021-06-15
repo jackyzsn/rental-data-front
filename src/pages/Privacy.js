@@ -9,8 +9,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: 'fixed',
     bottom: theme.spacing(2),
-    right: theme.spacing(2),
-  },
+    right: theme.spacing(2)
+  }
 }));
 
 export default function Privacy(props) {
@@ -21,8 +21,8 @@ export default function Privacy(props) {
       </Box>
       <div>
         <p>
-          jszsoft built the aplication as a Free app. This SERVICE is provided by jszsoft at no cost
-          and is intended for use as is.
+          jszsoft built the application as a Free app. This SERVICE is provided by jszsoft at no
+          cost and is intended for use as is.
         </p>
         <p>
           This page is used to inform visitors regarding our policies with the collection, use, and
@@ -187,7 +187,7 @@ export default function Privacy(props) {
     const trigger = useScrollTrigger({
       target: window ? window() : undefined,
       disableHysteresis: true,
-      threshold: 100,
+      threshold: 100
     });
 
     const handleClick = (event) => {
