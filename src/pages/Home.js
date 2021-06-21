@@ -9,7 +9,8 @@ import {
   REDIRECT_GOOGLE_SIGN_IN,
   REDIRECT_FACEBOOK_SIGN_IN,
   REDIRECT_GITHUB_SIGN_IN,
-  REDIRECT_LINKEDIN_SIGN_IN
+  REDIRECT_LINKEDIN_SIGN_IN,
+  REDIRECT_TWITTER_SIGN_IN
 } from '../config/endUrl';
 import { Store } from '../Store';
 import Header from '../components/common/Header';
@@ -23,6 +24,7 @@ import GithubLogo from '../../public/assets/images/GitHub-Mark-120px-plus.png';
 import LinkedinLogo from '../../public/assets/images/LI-In-Bug.png';
 import GoogleLogin from '../../public/assets/images/google_signon.png';
 import FacebookLogin from '../../public/assets/images/facebook_signin.png';
+import TwitterLogin from '../../public/assets/images/twitter.png';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -224,6 +226,16 @@ export default function Home(props) {
                 justify="center"
                 direction="row"
               >
+                <Link
+                  href="#"
+                  onClick={() => {
+                    window.location = REDIRECT_TWITTER_SIGN_IN;
+                  }}
+                  style={{ marginLeft: 20, marginRight: 20 }}
+                >
+                  <img src={TwitterLogin} alt="Twitter Logo" height="64" />
+                </Link>
+
                 <Link
                   href="#"
                   onClick={() => {
